@@ -23,13 +23,15 @@ Sacadas de (https://polyhaven.com/)
 - `gravelly_sand_rough_4k.jpg` - Mapa de rugosidad
 - `gravelly_sand_disp_4k.jpg` - Mapa de desplazamiento para deformación de geometría
 
-### Texturas partes metálicas excavadora (Green Metal Rust) https://polyhaven.com/a/green_metal_rust
+### Texturas partes metálicas excavadora (Green Metal Rust) 
+**Fuente:** https://polyhaven.com/a/green_metal_rust
 - `green_metal_rust_diff_4k.jpg` - Textura de color
 - `green_metal_rust_rough_4k.jpg` - Mapa de rugosidad
 - `green_metal_rust_spec_4k.jpg` - Mapa de metalicidad
 - `green_metal_rust_bump_4k.jpg` - Mapa de relieve
 
-### Textura de Ruedas (Bitumen) https://polyhaven.com/a/bitumen
+### Textura de Ruedas (Bitumen) 
+**Fuente:** https://polyhaven.com/a/bitumen
 - `bitumen_diff_4k.jpg` - Textura de asfalto para las ruedas
 
 ## Controles de la Excavadora
@@ -46,5 +48,6 @@ Sacadas de (https://polyhaven.com/)
 
 https://javfupla.github.io/Excavadora/ejemplo3.html
 
-También funciona si se ejecuta el proyecto con un Live Server en VSCode
+También funciona si se ejecuta el proyecto con un Live Server en VSCode.
+Pero no si se ejectuta directamente el .html, no se cargan las texturas.
 
