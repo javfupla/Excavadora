@@ -1,7 +1,3 @@
-/**
-** Ejemplo modificado del extraido del libro "Learning Three Js"
-**/
-
 var step;
 var scene, camera, renderer, controls;
 var excavadora; // Grupo para mover la excavadora
@@ -23,16 +19,11 @@ function init() {
 
     excavadora = new THREE.Group();
     crearExcavadora();
-    
-   
-
-   
-    
 
     // Añadir grupo de excavadora a la escena
     scene.add(excavadora);
     
-    // position and point the camera to the center of the scene
+    // Posicion inicial de la camara
     camera.position.set(0, 15, 40);
     camera.lookAt(scene.position);
     
@@ -45,15 +36,17 @@ function init() {
     var ambientLight = new THREE.AmbientLight(0x404040, 0.8); // Gris suave
     scene.add(ambientLight);
 
+    // Luz direccional para simular el sol
     var spotLight = new THREE.SpotLight(0xffffff, 1.2);
     spotLight.position.set(35, 100, 15); 
     spotLight.castShadow = true;
+    // para que se vean las sombras con más resolución
     spotLight.shadow.mapSize.width = 2048;
     spotLight.shadow.mapSize.height = 2048;
 
     scene.add(spotLight);
     
-    // Controles de teclado
+    // Dettección de teclas presionadas
     window.addEventListener('keydown', function(e) {
         teclas[e.key.toLowerCase()] = true;
     });
@@ -62,17 +55,16 @@ function init() {
         teclas[e.key.toLowerCase()] = false;
     });
 
-    // add the output of the renderer to the html element
+    // Añadir la salida del renderer al elemento html
     document.getElementById("contenedor").appendChild(renderer.domElement);
 
-    // call the render function
-    //var step = 0;
+    // Llamar a la función de renderizado
     step = 0;
     renderScene();
 }
 
 function setup() {
-    // default setup
+    // configuración por defecto
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     renderer = new THREE.WebGLRenderer();
@@ -81,7 +73,7 @@ function setup() {
     renderer.shadowMap.enabled = true;
 }
 
-function crearSuelo() {// create the ground plane
+function crearSuelo() {// crear el plano del suelo
     // Cargar texturas
     var textureLoader = new THREE.TextureLoader();
     
@@ -91,13 +83,9 @@ function crearSuelo() {// create the ground plane
     var texturaRoughness = textureLoader.load('gravelly_sand_rough_4k.jpg');
     var texturaDisplacement = textureLoader.load('gravelly_sand_disp_4k.jpg');
 
-    // Configurar repetición para todas las texturas
-    [texturaDiffuse, texturaNormal, texturaRoughness, texturaDisplacement].forEach(function(texture) {
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-    });
+
     
-    var planeGeometry = new THREE.PlaneGeometry(200, 200, 200, 200); // Más subdivisiones para displacement
+    var planeGeometry = new THREE.PlaneGeometry(200, 200, 200, 200);
     var planeMaterial = new THREE.MeshStandardMaterial({ 
         map: texturaDiffuse,              // Texturaa de color
         normalMap: texturaNormal,         // Detalles de relieve
@@ -112,7 +100,6 @@ function crearSuelo() {// create the ground plane
     plane.receiveShadow = true;
     plane.castShadow = false;
 
-    // rotate and position the plane
     plane.rotation.x = -0.5 * Math.PI;
     plane.position.x = 0;
     plane.position.y = 0.5;  // Subido para que cuadre con las ruedas
@@ -147,21 +134,15 @@ function getParteMetalica(){
     var texturaMetalness = textureLoader.load('green_metal_rust_spec_4k.jpg');
     var texturaBump = textureLoader.load('green_metal_rust_bump_4k.jpg');
 
-    // Configurar repetición para las texturas
-    [texturaDiffuse, texturaRoughness, texturaMetalness, texturaBump].forEach(function(texture) {
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-    });
 
-    // Usar MeshStandardMaterial (PBR): roughnessMap + metalnessMap + bumpMap
     var materialMetalico = new THREE.MeshStandardMaterial({ 
         map: texturaDiffuse,              // Textura de color
         roughnessMap: texturaRoughness,   // Mapa de rugosidad
-        metalnessMap: texturaMetalness,   // Mapa de metalicidad
+        metalnessMap: texturaMetalness,   // Mapa de metalicidad (especular)
         bumpMap: texturaBump,             // Mapa de relieve
-        bumpScale: 0.005,                  // Intensidad del bump (ajustable)
-        metalness: 0.6,                   // Valor base de metalicidad
-        roughness: 0.4,                   // Valor base de rugosidad
+        bumpScale: 0.005,                  // Intensidad del bump
+        metalness: 0.6,                   // Valor base de metalicidad (especular)
+        roughness: 0.4,                   // Valor base de rugosidad 
         flatShading: true                 // Sombreado plano
     });
 
@@ -190,11 +171,11 @@ function crearPlataforma(){
 }
 
 function crearCabina() {
-     // Cabina
+    // Cabina
     var materialCabina = new THREE.MeshLambertMaterial({ 
     color: 0x88ccff,      // Color cristal
     transparent: true,    // Habilitar transparencia
-    opacity: 0.6          // valor alfa 
+    opacity: 0.6          // Valor alfa 
     });
     var cabinaGeometry = new THREE.BoxGeometry(4.8, 4.7, 3.5);
     var cabina = new THREE.Mesh(cabinaGeometry, materialCabina);
@@ -206,7 +187,7 @@ function crearCabina() {
 }
 
 function crearRuedas() {
-    // Crear 4 ruedas cilíndricas usando array
+
     var textureLoader = new THREE.TextureLoader();
     var texturaBitumen = textureLoader.load('bitumen_diff_4k.jpg');
     texturaBitumen.wrapS = THREE.RepeatWrapping;
@@ -219,6 +200,7 @@ function crearRuedas() {
     });
     var ruedaGeometry = new THREE.CylinderGeometry(1.5, 1.5, 1, 32);
     
+    // Crear 4 ruedas cilíndricas usando array con us posiciones
     var posicionesRuedas = [ //Tienen la misma Y
         [4, -3],   // Delantera izquierda
         [4, 3],    // Delantera derecha
@@ -268,7 +250,7 @@ function crearBordeCabina(cabina, cabinaGeometry) {
     });
     
     // Eje X fijo (horizontales)
-    var aristaX = new THREE.BoxGeometry(ancho, grosor, grosor);
+    var aristaX = new THREE.BoxGeometry(ancho + grosor, grosor, grosor);
     var posicionesX = [
         [posX, posY + offsetY, posZ + offsetZ],
         [posX, posY + offsetY, posZ - offsetZ],
@@ -337,7 +319,7 @@ function crearBrazo() {
         // Cara lejana a la cabina
         -0.5, 4.25, 3.25,    // 3: base cercana caja
         -0.5, 6.75, 3.25,    // 4: pico superior
-        4, 4.25, 3.25     // 5: base lejana
+        4, 4.25, 3.25        // 5: base lejana
     ]);
     
     // Índices de las caras
@@ -354,7 +336,7 @@ function crearBrazo() {
     var soporteGeometry = new THREE.BufferGeometry();
     soporteGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
     soporteGeometry.setIndex(indices);
-    soporteGeometry.computeVertexNormals(); // Importante para la iluminación
+    soporteGeometry.computeVertexNormals(); // Importante para la iluminación, si no queda muy iluminado
     
     var soporte = new THREE.Mesh(soporteGeometry, materialSoporte);
     soporte.position.set(-0.5, 0, 0);
@@ -363,10 +345,11 @@ function crearBrazo() {
     tanque.add(soporte);
     
     // Crear grupo para el brazo (para poder rotarlo)
-    brazo = new THREE.Group();
-    brazo.position.set(1, 5.5, 1.875); 
     // Los grupos de excavadora y plataforma estaban ya posicionados en su pivote, este no es el caso para brazo
     // si no se establece la rotacion se hará alrededor de 0,0,0 y quedara mal
+    brazo = new THREE.Group();
+    brazo.position.set(1, 5.5, 1.875); 
+
     tanque.add(brazo);
     
     // Primera extremidad del brazo 
@@ -422,7 +405,7 @@ function crearBrazo() {
     cucharaGroup.position.set(8, 5, 0);
     brazo2.add(cucharaGroup);
 
-    // Material para la cuchara - Gris oscuro Lambert
+    // Material para la cuchara
     var materialCuchara = new THREE.MeshLambertMaterial({ 
         color: 0x2a2a2a,  
         side: THREE.DoubleSide  // Para que se sombree adecuadamente
@@ -431,7 +414,7 @@ function crearBrazo() {
     
     var cucharaGeometry = new THREE.CylinderGeometry(2.0, 2.0, 3, 64, 1, false, 0, Math.PI);
     var cuchara = new THREE.Mesh(cucharaGeometry, materialCuchara);
-    cuchara.position.set(1, -2, 0); // Continúa desde la unión
+    cuchara.position.set(1, -2, 0); 
     cuchara.rotation.x = Math.PI / 2;
     cuchara.rotation.y = Math.PI / 180 * 30;
     cuchara.castShadow = true;
@@ -454,14 +437,14 @@ function mostrarControles() {
         <p><b>1/2</b> - Rotar Cuchara</p>
     `;
     controles.style.cssText = `
+        background: rgba(0,0,0,0.7);
+        color: white;
+        font-family: Arial;
+        font-size: 14px;
         position: fixed;
         top: 10px;
         left: 10px;
-        background: rgba(0,0,0,0.7);
-        color: white;
         padding: 15px;
-        font-family: Arial;
-        font-size: 14px;
     `;
     document.body.appendChild(controles);
     }
@@ -472,11 +455,13 @@ function renderScene() {
     var velocidadRotacion = 0.02;
 
     if (teclas['w']) {
+        // El movimiento tiene que cuadrar con la rotación actual
         excavadora.position.x += Math.sin(excavadora.rotation.y+Math.PI/2) * velocidad;
         excavadora.position.z += Math.cos(excavadora.rotation.y+Math.PI/2) * velocidad;
 
     }
     if (teclas['s']) {
+        // El movimiento tiene que cuadrar con la rotación actual
         excavadora.position.x -= Math.sin(excavadora.rotation.y+Math.PI/2) * velocidad;
         excavadora.position.z -= Math.cos(excavadora.rotation.y+Math.PI/2) * velocidad;
 
@@ -520,13 +505,12 @@ function renderScene() {
     }
     if (teclas['2']) {
         if(cucharaGroup.rotation.z > -Math.PI/4){
-            cucharaGroup.rotation.z -= velocidadRotacion; // Bajar brazo2
+            cucharaGroup.rotation.z -= velocidadRotacion; // Bajar cuchara
         }
     }
-    // Update controls
+   
     controls.update();
 
-    // render using requestAnimationFrame
     requestAnimationFrame(renderScene);
     renderer.render(scene, camera);
 }
@@ -537,4 +521,3 @@ window.addEventListener('resize', function() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }, false);
-//}
