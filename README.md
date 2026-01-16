@@ -37,7 +37,7 @@ Sacadas de (https://polyhaven.com/)
 
 ### Textura de Ruedas (Bitumen) 
 **Fuente:** https://polyhaven.com/a/bitumen
-- `bitumen_diff_4k.jpg` - Textura de asfalto para las ruedas
+- `bitumen_diff_4k.jpg` - Textura de color
 
 ## Controles de la Excavadora
 
