@@ -40,7 +40,7 @@ function init() {
     var spotLight = new THREE.SpotLight(0xffffff, 1.2);
     spotLight.position.set(35, 100, 15); 
     spotLight.castShadow = true;
-    // para que se vean las sombras con más resolución
+    // Para que se vean las sombras con más resolución sobre el suelo al ser las mas grandes
     spotLight.shadow.mapSize.width = 2048;
     spotLight.shadow.mapSize.height = 2048;
 
@@ -96,7 +96,7 @@ function crearSuelo() {// crear el plano del suelo
     });
     var plane = new THREE.Mesh(planeGeometry, planeMaterial);
     
-
+    // Se añade en todos los objetos para que emitan y reciban sombras
     plane.receiveShadow = true;
     plane.castShadow = false;
 
@@ -164,6 +164,7 @@ function crearPlataforma(){
     var cajaMotorGeometry = new THREE.BoxGeometry(6.0, 3.0, 6.5);
     var cajaMotor = new THREE.Mesh(cajaMotorGeometry, materialPlataforma);
     cajaMotor.position.set(-4, 5.25, 0); // Sobre la plataforma de la cabina
+
     cajaMotor.castShadow = true;
     cajaMotor.receiveShadow = true;
     tanque.add(cajaMotor);

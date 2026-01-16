@@ -1,9 +1,14 @@
 # Práctica 3 - Excavadora Articulada con Three.js
 
-## Descripción
-Proyecto de gráficos por computador que implementa una excavadora articulada en 3D con controles interactivos utilizando Three.js.
+## Ejecución
 
-## Bibliotecas y Plugins Utilizados
+https://javfupla.github.io/Excavadora/ejemplo3.html
+
+También funciona si se ejecuta el proyecto con un Live Server en VSCode.
+Pero no si se ejectuta directamente el .html, no se cargan las texturas.
+
+
+## Plugins Utilizados
 
 ### OrbitControls
 **URL:** https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js
@@ -44,10 +49,5 @@ Sacadas de (https://polyhaven.com/)
 - **1/2** - Rotar cuchara (abrir/cerrar)
 
 
-## Ejecución
 
-https://javfupla.github.io/Excavadora/ejemplo3.html
-
-También funciona si se ejecuta el proyecto con un Live Server en VSCode.
-Pero no si se ejectuta directamente el .html, no se cargan las texturas.
 
