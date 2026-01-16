@@ -2,7 +2,7 @@
 
 ## Ejecución
 
-https://javfupla.github.io/Excavadora/ejemplo3.html
+https://javfupla.github.io/Excavadora/Practica3.html
 
 También funciona si se ejecuta el proyecto con un Live Server en VSCode.
 Pero no si se ejectuta directamente el .html, no se cargan las texturas.
